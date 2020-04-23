@@ -2,27 +2,30 @@ import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 
 class AddTask extends Component {
-
   state = {
+    id: 0,
     task: ''
   };
 
-  handlerOnStateChange = ({target: {value}}) => {
+  handlerOnStateChange = ({ target: { value } }) => {
     this.setState({
       task: value
-    })
-  }
+    });
+  };
 
   handlerOnSubmit = e => {
     e.preventDefault();
-    console.log(this.state.task);
-  }
+    this.props.createTask(this.state);
+    this.setState({
+      task: ''
+    });
+  };
 
   render() {
-    const {task} = this.state;
+    const { task } = this.state;
 
     return (
-      <Segment>
+      <Segment className='form-segment'>
         <Form onSubmit={this.handlerOnSubmit}>
           <Form.Field>
             <input
@@ -33,7 +36,7 @@ class AddTask extends Component {
               onChange={this.handlerOnStateChange}
             />
           </Form.Field>
-          <Button type='submit' content='Add Task'/>
+          <Button type='submit' content='Add Task' positive />
         </Form>
       </Segment>
     );

@@ -3,8 +3,24 @@ import { Segment, Grid, Icon } from 'semantic-ui-react';
 import AddTask from './features/AddTask.jsx';
 import TaskList from './features/TaskList.jsx';
 
+import cuid from 'cuid';
+
+const TaskCol = [];
+
 class App extends Component {
+  state = {
+    tasks: TaskCol
+  };
+
+  handlerCreateTask = newTask => {
+    newTask.id = cuid();
+    this.setState(prevState => ({
+      tasks: [...prevState.tasks, newTask]
+    }));
+  };
+
   render() {
+    const {tasks} = this.state;
     return (
       <Grid
         textAlign='center'
@@ -22,12 +38,13 @@ class App extends Component {
                 </Grid.Row>
                 <Grid.Row>
                   <Grid.Column>
-                    <AddTask />
+                    <AddTask createTask={this.handlerCreateTask} />
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
                   <Grid.Column>
-                    <TaskList />
+                    <h2>Tasks</h2>
+                    <TaskList tasks={tasks}/>
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
